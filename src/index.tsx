@@ -1,15 +1,38 @@
 import minimist from "minimist";
 import { Company } from "./types/types";
-import { flattenCompanyData } from "./utils/flattenCompanyData";
-import { getFileContents } from "./utils/getFileContents";
-import { deduplicateProducts } from "./utils/dedupelicateProducts";
-import { writeCsv } from "./utils/writeCsv";
+import { flattenCompanyData } from "./utils/flattenCompanyData/flattenCompanyData";
+import { getFileContents } from "./utils/getFileContents/getFileContents";
+import { deduplicateProducts } from "./utils/deduplicateProducts/deduplicateProducts";
+import { writeCsv } from "./utils/writeCsv/writeCsv";
+
+const expectedArgs = [
+  "aCatalog",
+  "aBarcodes",
+  "aSuppliers",
+  "bCatalog",
+  "bBarcodes",
+  "bSuppliers",
+];
 
 const argv = minimist(process.argv.slice(2));
-const { aCatalog, aBarcodes, aSuppliers, bCatalog, bBarcodes, bSuppliers } =
-  argv;
+const {
+  aCatalog,
+  aBarcodes,
+  aSuppliers,
+  bCatalog,
+  bBarcodes,
+  bSuppliers,
+  output,
+} = argv;
 
 const app = async () => {
+  expectedArgs.forEach((arg) => {
+    if (!eval(arg)) {
+      const error = `Missing ${arg} argument`;
+      throw new Error(error);
+    }
+  });
+
   const parentCompanyFiles: Company = {
     catalog: await getFileContents(aCatalog),
     barcodes: await getFileContents(aBarcodes),
@@ -28,7 +51,7 @@ const app = async () => {
   ];
 
   const products = deduplicateProducts(mergedCompanies);
-  writeCsv(products);
+  writeCsv(products, output);
 };
 
 app();

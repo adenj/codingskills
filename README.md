@@ -1,53 +1,43 @@
 # Coding Skills Challenge
 
-### The below describes a problem statement, make sure to read all the instructions in this readme before you start.
+### Background
 
-### Business Requirement:
+This project was built using Node and Typescript.
 
-- Company A have acquired Company B, A and B sell some common products, sourced from suppliers (Sometimes the same supplier, sometimes a different one). 
-- The business wants to consolidate the product catalog into one superset (merged catalog). 
+Yarn or npm is required to run it.
 
-### There are possibilities like:
+Some assumptions made were that Company A is always the aquiring company, and Company B are the aquired company, and that the file structures always match that of the given examples.
 
-- Company A and B could have conflicting product codes (SKUs).
-- Product codes might be same, but they are different products.
-- Product codes are different, but they are same product.
-- You should not be duplicating product records in merged catalog.
-- Product on merged catalog must have information about the company it belongs to originally.  
+### Setup
 
-The business provided the following information that may help in identifying a matching product:
-- Products have associated suppliers, each supplier provides 1 or many barcodes for a product, 
-- A product may have many suppliers,
-- If any supplier barcode matches for one product of company A with Company B then we can consider that those products as the same.
+```sh
+git clone git@github.com:adenj/codingskills.git
+cd codingskills
+yarn
+```
 
+## Usage
 
-So, you have following entities to play with:
+> Note: It is expected that all input csv files live in the `input` folder
 
-<img src="./entity_diagram.png" width="800px" height="auto">
+Run the script with `yarn merge` followed by the list of expected arguments and a .csv will be produced in the output folder.
 
+**Expected arguments**
 
+```
+--aBarcodes=[.csv file]
+--aCatalog=[.csv file]
+--aSuppliers=[.csv file]
+--bBarcodes=[.csv file]
+--bCatalog=[.csv file]
+--bSuppliers=[.csv file]
+--output=[fileName.csv] [optional]
+```
 
-You need to produce code in your preferred language which can demonstrate following:
+**Example usage**
 
-### Initial load
-- Mega merge: All products from both companies should get merge into a common catalog
- 
+`yarn merge --aBarcodes=barcodesA.csv --aCatalog=catalogA.csv --aSuppliers=suppliersA.csv --bBarcodes=barcodesB.csv --bCatalog=catalogB.csv --bSuppliers=suppliersB.csv --output=cool-file-name.csv`
 
-### Sample Data 
-Please refer input folder for following CSVs:
-1. [catalogA.csv](input/catalogA.csv) - Products for Company A
-1. [catalogB.csv](input/catalogB.csv) - Products for Company B
-1. [suppliersA.csv](input/suppliersA.csv) - List of Suppliers for Company A
-1. [suppliersB.csv](input/suppliersB.csv) - List of Suppliers for Company B
-1. [barcodesA.csv](input/barcodesA.csv) - Product barcodes provided by supplier for company A
-1. [barcodesB.csv](input/barcodesB.csv) - Product barcodes provided by supplier for company B
-1. [result_output.csv](output/result_output.csv) - The correct results based on the above sample data
+**Testing**
 
-
-### Deliverables.
-- Application should be able to accept above data as csv files from input folder and must produce a merged catalog as a csv file in output folder.
-- Proving your code works via unit testing is highly encouraged.
-- Spend as little or as much time as you like ⌚
-- The code you produce can be in any language ⭐
-- The output of the efforts ❗ must be committed back into a Public Repo in Github and the URL shared back for review. 
-- Document instructions on how to install and run your solution in the README.
+Run unit tests with `yarn test`
